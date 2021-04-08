@@ -1,0 +1,26 @@
+group 'com.party'
+version '1.0.1'
+def artifactId = 'com.haochang.network'
+
+apply plugin: 'maven'
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "${rootProject.ext.path.aliyun_release_path}") {
+                authentication(
+                        userName: "${rootProject.ext.nickname.aliyun_name}",
+                        password: "${rootProject.ext.password.aliyun_pwd}"
+                )
+            }
+            snapshotRepository(url: "${rootProject.ext.path.aliyun_debug_path}") {
+                authentication(
+                        userName: "${rootProject.ext.nickname.aliyun_name}",
+                        password: "${rootProject.ext.password.aliyun_pwd}"
+                )
+            }
+            pom.version = "$project.version"
+            pom.artifactId = "$artifactId"
+            pom.groupId = "$project.group"
+        }
+    }
+}
