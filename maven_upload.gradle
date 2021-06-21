@@ -1,6 +1,6 @@
-group 'com.party'
-version '1.0.1'
-def artifactId = 'com.haochang.network'
+group "${rootProject.ext.groupName.library}"
+version "${rootProject.ext.ver.library_base}"
+def artifactId = "${rootProject.ext.packageName.library_base}"
 
 apply plugin: 'maven'
 uploadArchives {
@@ -18,9 +18,9 @@ uploadArchives {
                         password: "${rootProject.ext.password.aliyun_pwd}"
                 )
             }
-            pom.version = "$project.version"
+            pom.version = "${project.version}"
             pom.artifactId = "$artifactId"
-            pom.groupId = "$project.group"
+            pom.groupId = "${project.group}"
         }
     }
 }
