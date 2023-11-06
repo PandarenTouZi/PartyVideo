@@ -3,24 +3,37 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply from: 'maven_upload.gradle'
 
+def ver = rootProject.ext.ver
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion rootProject.ext.version.compileSdkVersion
+    buildToolsVersion "${rootProject.ext.version.buildToolsVersion}"
 
     defaultConfig {
-        minSdkVersion 23
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.version.minSdkVersion
+        targetSdkVersion rootProject.ext.version.targetSdkVersion
+        versionCode ver.library_utils_code
+        versionName ver.library_utils_name
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+        externalNativeBuild {
+            cmake {
+                cppFlags ''
+            }
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    ndkVersion "20.0.5594570"
+    externalNativeBuild {
+        cmake {
+            path file('src/main/cpp/CMakeLists.txt')
+            version '3.22.1'
         }
     }
 }
@@ -30,8 +43,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${rootProject.ext.ver.kotlin_version}"
     implementation "androidx.core:core-ktx:${rootProject.ext.ver.kotlin_core}"
     implementation "androidx.appcompat:appcompat:${rootProject.ext.ver.androidx_compat}"
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    testImplementation "junit:junit:${rootProject.ext.ver.junit}"
+    androidTestImplementation "androidx.test.ext:junit:${rootProject.ext.ver.android_junit}"
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
 }
