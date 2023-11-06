@@ -1,5 +1,5 @@
 group "${rootProject.ext.groupName.library}"
-version "${rootProject.ext.ver.library_audio_name}"
+version "${rootProject.ext.ver.library_video_name}"
 //>=gradle 7.0
 apply plugin: "maven-publish"
 afterEvaluate {
@@ -7,7 +7,7 @@ afterEvaluate {
         publications {
             plugin(MavenPublication) {
                 groupId = "${project.group}"
-                artifactId = "${rootProject.ext.packageName.library_audio}"
+                artifactId = "${rootProject.ext.packageName.library_video}"
                 version = "${project.version}"
                 //必须有这个 否则不会上传AAR包
                 afterEvaluate { artifact(tasks.getByName("bundleReleaseAar")) }
