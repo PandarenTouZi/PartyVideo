@@ -1,7 +1,38 @@
 group "${rootProject.ext.groupName.library}"
-version "${rootProject.ext.ver.library_base}"
-def artifactId = "${rootProject.ext.packageName.library_base}"
-
+version "${rootProject.ext.ver.library_audio_name}"
+//>=gradle 7.0
+apply plugin: "maven-publish"
+afterEvaluate {
+    publishing {
+        publications {
+            plugin(MavenPublication) {
+                groupId = "${project.group}"
+                artifactId = "${rootProject.ext.packageName.library_audio}"
+                version = "${project.version}"
+                //必须有这个 否则不会上传AAR包
+                afterEvaluate { artifact(tasks.getByName("bundleReleaseAar")) }
+            }
+        }
+        repositories {
+            maven {
+                url = "${rootProject.ext.path.aliyun_release_path}"
+                credentials {
+                    username = "${rootProject.ext.nickname.aliyun_name}"
+                    password = "${rootProject.ext.password.aliyun_pwd}"
+                }
+            }
+            maven {
+                url = "${rootProject.ext.path.aliyun_debug_path}"
+                credentials {
+                    username = "${rootProject.ext.nickname.aliyun_name}"
+                    password = "${rootProject.ext.password.aliyun_pwd}"
+                }
+            }
+        }
+    }
+}
+/*
+//<gradle 7.0
 apply plugin: 'maven'
 uploadArchives {
     repositories {
@@ -23,4 +54,9 @@ uploadArchives {
             pom.groupId = "${project.group}"
         }
     }
+}*/
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
